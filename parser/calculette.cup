@@ -1,0 +1,36 @@
+// CUP specification for a simple expression evaluator (w/ actions)
+
+import java_cup.runtime.*;
+import java.util.Vector;
+import java.io.*;
+
+terminal LPAR, RPAR, SEMIC, PLUS, MULT;
+terminal ID;
+
+/* The grammar */
+non terminal expr, term, factor;
+non terminal axiom;
+
+start with axiom;
+
+axiom ::=       expr:t SEMIC
+                {: System.out.println("Reduction axiom -> expr SEMIC"); :} 
+                ;
+
+expr ::=        expr:t1 PLUS term:t2
+                {: System.out.println("Reduction expr -> expr + term"); :}    
+                | term:t
+                {: System.out.println("Reduction expr -> term"); :}     
+                ;
+
+term ::=        term:t1 MULT  factor:t2
+                {: System.out.println("Reduction terme -> terme MULT facteur"); :}
+                | factor:t
+                {: System.out.println("Reduction terme -> facteur"); :} 
+                ;
+
+factor ::=      LPAR expr:t  RPAR
+                {: System.out.println("Reduction factor -> LPAR expr RPAR"); :} 
+                | ID:t
+                {: System.out.println("Reduction factor -> ID"); :} 
+                ;
